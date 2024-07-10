@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:gemini_app/views/chatView/chat_view.dart';
+import 'package:gemini_app/bottomNavigationView/bottom_navigation_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Sarcastic Pig',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Color.fromARGB(255, 190, 240, 192)),
           useMaterial3: true,
         ),
         home: Scaffold(
@@ -26,6 +28,7 @@ class MyApp extends StatelessWidget {
             title: const Text("SomeTitle"),
           ),
           body: const ChatView(),
+          bottomNavigationBar: const BottomNavigationView(),
         ));
   }
 }
