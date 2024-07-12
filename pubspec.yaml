@@ -28,7 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  # https://pub.dev/documentation/speech_to_text/latest/speech_to_text/SpeechToText/SpeechToText.html
   speech_to_text: ^6.6.2
+  # https://github.com/SourceHorizon/logger
+  logger: ^2.3.0
   flutter:
     sdk: flutter
 
