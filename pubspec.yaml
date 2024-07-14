@@ -28,6 +28,10 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  # https://pub.dev/documentation/speech_to_text/latest/speech_to_text/SpeechToText/SpeechToText.html
+  speech_to_text: ^6.6.2
+  # https://github.com/SourceHorizon/logger
+  logger: ^2.3.0
   flutter:
     sdk: flutter
 
@@ -37,9 +41,10 @@ dependencies:
   cupertino_icons: ^1.0.6
 
 dev_dependencies:
+  mockito: ^5.0.16
+  build_runner: 2.4.11
   flutter_test:
     sdk: flutter
-
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -59,9 +64,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - lib/assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

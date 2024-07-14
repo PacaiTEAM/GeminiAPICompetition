@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/services/permissions/microphone.dart';
+import 'package:gemini_app/views/chatView/avatarView/avatar_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -112,6 +114,9 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            AvatarView(
+              microphone: Microphone(),
+            )
           ],
         ),
       ),
