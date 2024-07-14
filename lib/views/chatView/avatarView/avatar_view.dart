@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_app/services/permissions/microphone.dart';
 
-class Avatarview extends StatefulWidget {
-  const Avatarview({super.key});
+class AvatarView extends StatefulWidget {
+  final Microphone microphone;
+
+  const AvatarView({super.key, required this.microphone});
 
   @override
-  State<Avatarview> createState() => _AvatarviewState();
+  State<AvatarView> createState() => _AvatarViewState();
 }
 
-class _AvatarviewState extends State<Avatarview> {
-  Microphone microphone = Microphone();
+class _AvatarViewState extends State<AvatarView> {
+  late final Microphone microphone;
+
+  @override
+  void initState() {
+    super.initState();
+    microphone = widget.microphone;
+  }
 
   void getVoiceInput() async {
     bool hasPermission = await microphone.hasPermission();
@@ -21,12 +29,8 @@ class _AvatarviewState extends State<Avatarview> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        IconButton(
-            onPressed: getVoiceInput,
-            icon: Image.asset("lib/assets/images/dancing-pig.gif"))
-      ],
-    );
+    return IconButton(
+        onPressed: getVoiceInput,
+        icon: Image.asset("lib/assets/images/dancing-pig.gif"));
   }
 }
