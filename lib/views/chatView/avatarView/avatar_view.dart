@@ -16,9 +16,7 @@ class _AvatarviewState extends State<Avatarview> {
     if (!hasPermission) {
       hasPermission = await microphone.getPermission();
     }
-    if (hasPermission) {
-      microphone.getInput();
-    }
+    microphone.getInput(hasPermission);
   }
 
   @override

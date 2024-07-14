@@ -46,10 +46,9 @@ class Microphone {
   /// Retrieves the microphone input.
   ///
   ///
-  void getInput() async {
-    bool permissionGiven = await hasPermission();
+  void getInput(bool permissionGiven) async {
     if (permissionGiven) {
-      // TODO: might need to set the locale to detect the language being spoken
+      // TODO: need to set the locale to detect the language being spoken
       logger.i("Listening to microphone...");
       await speech?.listen(
           onResult: (result) {
