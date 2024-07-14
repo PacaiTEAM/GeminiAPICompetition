@@ -2,7 +2,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 import 'package:logger/logger.dart';
 
 class Microphone {
-  SpeechToText? speech;
+  late SpeechToText speech;
   Logger logger = Logger();
 
   Microphone() {
@@ -18,7 +18,7 @@ class Microphone {
   /// @returns if microphone permission is given
   Future<bool> getPermission() async {
     // Initialize would prompt user for permission
-    bool? hasPermission = await speech?.initialize(
+    bool? hasPermission = await speech.initialize(
       onStatus: (status) {
         logger.i("Microphone Status: $status");
       },
@@ -27,18 +27,18 @@ class Microphone {
       },
     );
 
-    if (hasPermission != null && !hasPermission) {
+    if (!hasPermission) {
       // TODO: Maybe ask the user to provide microphone access in the settings if it is not provided
     }
-    return hasPermission ?? false;
+    return hasPermission;
   }
 
   /// Checks if microphone permission has been given.
   ///
   /// @returns if microphone permission is given
   Future<bool> hasPermission() async {
-    bool permission = await speech?.hasPermission ?? false;
-    bool isInitialized = speech?.isAvailable ?? false;
+    bool permission = await speech.hasPermission;
+    bool isInitialized = speech.isAvailable;
 
     return isInitialized && permission;
   }
@@ -50,7 +50,7 @@ class Microphone {
     if (permissionGiven) {
       // TODO: need to set the locale to detect the language being spoken
       logger.i("Listening to microphone...");
-      await speech?.listen(
+      await speech.listen(
           onResult: (result) {
             logger.i(
                 "${result.recognizedWords} ${result.confidence} ${result.alternates}");

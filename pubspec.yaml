@@ -41,6 +41,7 @@ dependencies:
   cupertino_icons: ^1.0.6
 
 dev_dependencies:
+  # https://pub.dev/packages/mockito
   mockito: ^5.0.16
   build_runner: 2.4.11
   flutter_test:
