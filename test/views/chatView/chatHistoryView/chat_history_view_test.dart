@@ -7,7 +7,9 @@ import 'package:gemini_app/widgets/chatBubble/chat_bubble.dart';
 void main() {
   Widget createWidgetUnderTest() {
     return const MaterialApp(
-      home: ChatHistoryView(),
+      home: Scaffold(
+        body: ChatHistoryView(),
+      ),
     );
   }
 
@@ -16,6 +18,7 @@ void main() {
       await tester.pumpWidget(createWidgetUnderTest());
 
       expect(find.byType(ChatBubble), findsNWidgets(7));
+      expect(find.byType(TextField), findsOneWidget);
     });
   });
 }
