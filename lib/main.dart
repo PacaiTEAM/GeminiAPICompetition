@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:gemini_app/views/chatView/chatHistoryView/chat_history_view.dart';
+import 'package:gemini_app/views/chatView/chat_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,19 +25,7 @@ class MyApp extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
             title: const Text("SomeTitle"),
           ),
-          body: const Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                // AvatarView(
-                //   microphone: Microphone(),
-                // ),
-                Expanded(
-                  child: ChatHistoryView(),
-                )
-              ],
-            ),
-          ),
+          body: const ChatView(),
         ));
   }
 }
