@@ -24,7 +24,7 @@ void main() {
     testWidgets("should render correctly", (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
-      expect(find.byType(IconButton), findsOneWidget);
+      expect(find.byType(ElevatedButton), findsOneWidget);
       expect(find.byType(Image), findsOneWidget);
     });
 
@@ -32,8 +32,8 @@ void main() {
         (WidgetTester tester) async {
       await tester.pumpWidget(createWidgetUnderTest());
 
-      // Tap the IconButton
-      await tester.tap(find.byType(IconButton));
+      // Tap the ElevatedButton
+      await tester.tap(find.byType(ElevatedButton));
       await tester.pump();
 
       verify(mockMicrophone.getInput(any)).called(1);

@@ -29,8 +29,16 @@ class _AvatarViewState extends State<AvatarView> {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-        onPressed: getVoiceInput,
-        icon: Image.asset("lib/assets/images/dancing-pig.gif"));
+    return ElevatedButton(
+      onPressed: getVoiceInput,
+      style: ElevatedButton.styleFrom(
+        shape: const CircleBorder(),
+        backgroundColor: Colors.blue, // <-- Button color
+        foregroundColor: Colors.red, // <-- Splash color
+      ),
+      child: Image.asset(
+        "lib/assets/images/dancing-pig.gif",
+      ),
+    );
   }
 }
