@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         title: 'Sarcastic Pig',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-              seedColor: Color.fromARGB(255, 190, 240, 192)),
+              seedColor: const Color.fromARGB(255, 190, 240, 192)),
           useMaterial3: true,
         ),
         home: Scaffold(
