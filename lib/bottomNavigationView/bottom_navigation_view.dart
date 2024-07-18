@@ -9,11 +9,6 @@ class BottomNavigationView extends StatefulWidget {
 
 class _BottomNavigationViewState extends State<BottomNavigationView> {
   int _currentIndex = 0;
-  List<Widget> body = const [
-    Icon(Icons.search),
-    Icon(Icons.home),
-    Icon(Icons.person)
-  ];
 
   @override
   Widget build(BuildContext context) {
