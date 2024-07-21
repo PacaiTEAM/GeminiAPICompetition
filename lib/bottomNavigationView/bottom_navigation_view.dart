@@ -1,35 +1,35 @@
 import 'package:flutter/material.dart';
 
 class BottomNavigationView extends StatefulWidget {
-  const BottomNavigationView({super.key});
+  dynamic updateView;
+  int currentIndex;
+
+  BottomNavigationView(
+      {super.key, required this.updateView, required this.currentIndex});
 
   @override
   State<BottomNavigationView> createState() => _BottomNavigationViewState();
 }
 
 class _BottomNavigationViewState extends State<BottomNavigationView> {
-  int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: _currentIndex,
+      currentIndex: widget.currentIndex,
       onTap: (int newIndex) {
-        setState(() {
-          _currentIndex = newIndex;
-        });
+        widget.updateView(newIndex);
       },
       items: const [
         BottomNavigationBarItem(
-          label: 'Social',
-          icon: Icon(Icons.search),
-        ),
-        BottomNavigationBarItem(
-          label: 'Home',
+          label: 'H O M E',
           icon: Icon(Icons.home),
         ),
         BottomNavigationBarItem(
-          label: 'Profile',
+          label: 'S O C I A L',
+          icon: Icon(Icons.search),
+        ),
+        BottomNavigationBarItem(
+          label: 'P R O F I L E',
           icon: Icon(Icons.people),
         ),
       ],
