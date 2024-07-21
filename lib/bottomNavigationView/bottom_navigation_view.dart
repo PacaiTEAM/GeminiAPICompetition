@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class BottomNavigationView extends StatefulWidget {
-  dynamic updateView;
-  int currentIndex;
+  final dynamic updateView;
+  final int currentIndex;
 
-  BottomNavigationView(
+  const BottomNavigationView(
       {super.key, required this.updateView, required this.currentIndex});
 
   @override
