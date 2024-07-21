@@ -11,7 +11,7 @@ class ProfileView extends StatefulWidget {
 class _ProfileViewState extends State<ProfileView> {
   //final currentUser = FirebaseAuth.instance.currentUser;
   String userName = "Lemeng";
-  String AvatarName = "ZJ";
+  String avatarName = "ZJ";
 
   //Edit Field
   Future<void> editField(String field) async {
@@ -55,7 +55,7 @@ class _ProfileViewState extends State<ProfileView> {
                 if (field == "Username") {
                   userName = newValue;
                 } else {
-                  AvatarName = newValue;
+                  avatarName = newValue;
                 }
               });
               Navigator.of(context).pop(newValue);
@@ -101,7 +101,7 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           // Avatar Name
           TextBox(
-            text: AvatarName,
+            text: avatarName,
             sectionName: "Avatar Name",
             onPressed: () => editField("Avatar Name"),
           )
