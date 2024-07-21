@@ -44,3 +44,7 @@ app.*.map.json
 
 # Mockito generated files for testing
 /test/**/*.mocks.dart
+
+# Environment Variables and secrets
+*.env
+env.g.dart

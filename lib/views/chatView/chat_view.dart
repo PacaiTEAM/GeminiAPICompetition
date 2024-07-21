@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/services/geminiApi/gemini.dart';
 import 'package:gemini_app/views/chatView/avatarView/avatar_view.dart';
 import 'package:gemini_app/views/chatView/chatHistoryView/chat_history_view.dart';
 import 'package:gemini_app/services/permissions/microphone.dart';
+import 'package:logger/logger.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -13,6 +15,21 @@ class ChatView extends StatefulWidget {
 class _ChatViewState extends State<ChatView> {
   Widget view = AvatarView(microphone: Microphone());
   bool isChatHistoryView = false;
+  Gemini gemini = Gemini();
+  String response = "hello";
+  Logger logger = Logger();
+
+  void getResponse() {
+    gemini.startChat();
+    gemini
+        .sendMessage('who is the current president in the states?')
+        .then((value) => setState(() {
+              response = value;
+            }))
+        .catchError((onError) => () {
+              logger.e(onError);
+            });
+  }
 
   void changeView(newView) {
     setState(() {
@@ -42,6 +59,7 @@ class _ChatViewState extends State<ChatView> {
               fit: FlexFit.tight,
               child: view,
             ),
+            ElevatedButton(onPressed: getResponse, child: Text(response))
           ],
         ));
   }
