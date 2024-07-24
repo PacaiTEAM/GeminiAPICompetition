@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/services/application_logger.dart';
 import 'package:gemini_app/widgets/chatBubble/chat_bubble.dart';
-import 'package:logger/logger.dart';
 
 class ChatHistoryView extends StatefulWidget {
   const ChatHistoryView({super.key});
@@ -11,7 +11,7 @@ class ChatHistoryView extends StatefulWidget {
 
 class _ChatHistoryViewState extends State<ChatHistoryView> {
   final textFieldController = TextEditingController();
-  Logger logger = Logger();
+  ApplicationLogger logger = ApplicationLogger();
 
   @override
   void dispose() {
