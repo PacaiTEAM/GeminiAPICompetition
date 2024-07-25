@@ -48,3 +48,7 @@ app.*.map.json
 # Environment Variables and secrets
 *.env
 env.g.dart
+
+# Environment Variables and secrets
+*.env
+env.g.dart

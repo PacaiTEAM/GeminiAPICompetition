@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/utils/screen_dimensions.dart';
 import 'package:gemini_app/services/firebase/firebase.dart';
 
 import 'package:gemini_app/views/chatView/chat_view.dart';
 import 'package:gemini_app/bottomNavigationView/bottom_navigation_view.dart';
 import 'package:gemini_app/views/profileView/profile_view.dart';
+import 'package:gemini_app/views/greetingView/greeting_view.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +41,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 190, 240, 192)),
+        fontFamily: "Montserrat",
         useMaterial3: true,
       ),
       home: Scaffold(
@@ -50,16 +53,10 @@ class _MyAppState extends State<MyApp> {
         ),
         body: IndexedStack(
           index: currentIndex,
-          children: const [
-            ChatView(),
-            Text("Social View"),
-            ProfileView(),
-          ],
+          children: const [ChatView(), Text("Social View"), ProfileView()],
         ),
         bottomNavigationBar: BottomNavigationView(
-          currentIndex: currentIndex,
-          updateView: updateView,
-        ),
+            currentIndex: currentIndex, updateView: updateView),
       ),
     );
   }
