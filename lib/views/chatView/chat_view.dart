@@ -29,29 +29,27 @@ class _ChatViewState extends State<ChatView> {
         ? const ChatHistoryView()
         : AvatarView(microphone: Microphone());
 
-    return Flexible(
-        fit: FlexFit.tight,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Flex(
+          mainAxisAlignment: MainAxisAlignment.end,
+          direction: Axis.horizontal,
           children: [
-            Flex(
-              mainAxisAlignment: MainAxisAlignment.end,
-              direction: Axis.horizontal,
-              children: [
-                Switch(
-                  value: isChatHistoryView,
-                  onChanged: changeView,
-                )
-              ],
-            ),
-            Flexible(
-              fit: FlexFit.tight,
-              child: ChangeNotifierProvider(
-                create: (context) => GeminiChatSessionState(),
-                child: view,
-              ),
-            ),
+            Switch(
+              value: isChatHistoryView,
+              onChanged: changeView,
+            )
           ],
-        ));
+        ),
+        Flexible(
+          fit: FlexFit.tight,
+          child: ChangeNotifierProvider(
+            create: (context) => GeminiChatSessionState(),
+            child: view,
+          ),
+        ),
+      ],
+    );
   }
 }

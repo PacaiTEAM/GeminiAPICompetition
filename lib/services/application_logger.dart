@@ -5,7 +5,7 @@ class ApplicationLogger extends Logger {
 
   ApplicationLogger()
       : super(
-          printer: SimplePrinter(),
+          printer: SimplePrinter(printTime: true),
           level: _loggerLevel,
         );
 }
