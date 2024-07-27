@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/commons/constants.dart';
 import 'package:gemini_app/commons/providers/gemini_chat_session_state.dart';
 import 'package:gemini_app/services/application_logger.dart';
 import 'package:gemini_app/services/permissions/microphone.dart';
@@ -23,12 +24,6 @@ class _AvatarViewState extends State<AvatarView> {
     microphone = widget.microphone;
     logger = ApplicationLogger();
     _initializeMicrophonePermission();
-  }
-
-  @override
-  void dispose() async {
-    await microphone.stopListening();
-    super.dispose();
   }
 
   Future<void> _initializeMicrophonePermission() async {
@@ -56,6 +51,7 @@ class _AvatarViewState extends State<AvatarView> {
 
     void stopListening(LongPressEndDetails details) async {
       String message = microphone.getInput();
+      geminiChatSessionState.addToChatHistory(message, UserRole.user);
       await geminiChatSessionState.sendMessageToGemini(message);
       await microphone.stopListening();
     }

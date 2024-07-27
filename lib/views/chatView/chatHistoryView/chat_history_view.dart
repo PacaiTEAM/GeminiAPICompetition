@@ -24,10 +24,10 @@ class _ChatHistoryViewState extends State<ChatHistoryView> {
   }
 
   @override
-  void dispose() async {
+  void dispose() {
     // Clean up the controller when the widget is disposed.
     textFieldController.dispose();
-    await logger.close();
+    logger.close();
     super.dispose();
   }
 

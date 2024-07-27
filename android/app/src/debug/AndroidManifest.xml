@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
 
     <queries>
+        <!-- <package android:name="com.google.android.googlequicksearchbox"/> -->
         <!-- To target Android SDK 30 or later -->
         <intent>
             <action android:name="android.speech.RecognitionService" />
