@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:gemini_app/services/geminiApi/gemini.dart';
+import 'package:gemini_app/commons/providers/gemini_chat_session_state.dart';
 import 'package:gemini_app/views/chatView/avatarView/avatar_view.dart';
 import 'package:gemini_app/views/chatView/chatHistoryView/chat_history_view.dart';
 import 'package:gemini_app/services/permissions/microphone.dart';
-import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -13,24 +13,10 @@ class ChatView extends StatefulWidget {
 }
 
 class _ChatViewState extends State<ChatView> {
-  Widget view = AvatarView(microphone: Microphone());
+  late Widget view;
   bool isChatHistoryView = false;
-  Gemini gemini = Gemini();
-  String response = "hello";
-  Logger logger = Logger();
 
-  void getResponse() {
-    gemini.startChat();
-    gemini
-        .sendMessage('who is the current president in the states?')
-        .then((value) => setState(() {
-              response = value;
-            }))
-        .catchError((onError) => () {
-              logger.e(onError);
-            });
-  }
-
+  /// Switch views between ChatHistoryView and AvatarView
   void changeView(newView) {
     setState(() {
       isChatHistoryView = newView;
@@ -43,24 +29,27 @@ class _ChatViewState extends State<ChatView> {
         ? const ChatHistoryView()
         : AvatarView(microphone: Microphone());
 
-    return Flexible(
-        fit: FlexFit.tight,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Flex(
+          mainAxisAlignment: MainAxisAlignment.end,
+          direction: Axis.horizontal,
           children: [
-            Flex(
-              mainAxisAlignment: MainAxisAlignment.end,
-              direction: Axis.horizontal,
-              children: [
-                Switch(value: isChatHistoryView, onChanged: changeView)
-              ],
-            ),
-            Flexible(
-              fit: FlexFit.tight,
-              child: view,
-            ),
-            ElevatedButton(onPressed: getResponse, child: Text(response))
+            Switch(
+              value: isChatHistoryView,
+              onChanged: changeView,
+            )
           ],
-        ));
+        ),
+        Flexible(
+          fit: FlexFit.tight,
+          child: ChangeNotifierProvider(
+            create: (context) => GeminiChatSessionState(),
+            child: view,
+          ),
+        ),
+      ],
+    );
   }
 }

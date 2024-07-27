@@ -28,25 +28,28 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Sarcastic Pig',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromARGB(255, 190, 240, 192)),
-          useMaterial3: true,
+      title: 'Sarcastic Pig',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 190, 240, 192)),
+        useMaterial3: true,
+      ),
+      home: Scaffold(
+        appBar: AppBar(
+          // Note: Application state is not lost during reload. To reset the state, use hot
+          // restart instead.
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text("Sarcastic Pig"),
         ),
-        home: Scaffold(
-          appBar: AppBar(
-            // Note: Application state is not lost during reload. To reset the state, use hot
-            // restart instead.
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            title: const Text("Sarcastic Pig"),
-          ),
-          body: IndexedStack(
-            index: currentIndex,
-            children: const [ChatView(), Text("Social View"), ProfileView()],
-          ),
-          bottomNavigationBar: BottomNavigationView(
-              currentIndex: currentIndex, updateView: updateView),
-        ));
+        body: IndexedStack(
+          index: currentIndex,
+          children: const [ChatView(), Text("Social View"), ProfileView()],
+        ),
+        bottomNavigationBar: BottomNavigationView(
+          currentIndex: currentIndex,
+          updateView: updateView,
+        ),
+      ),
+    );
   }
 }

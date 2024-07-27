@@ -8,8 +8,10 @@ import 'package:gemini_app/views/chatView/chat_view.dart';
 void main() {
   Widget createWidgetUnderTest() {
     return const MaterialApp(
-        home: Scaffold(
-            body: Flex(direction: Axis.vertical, children: [ChatView()])));
+      home: Scaffold(
+        body: ChatView(),
+      ),
+    );
   }
 
   group("ChatView widget test", () {

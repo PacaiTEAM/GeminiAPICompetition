@@ -1,3 +1,4 @@
+import 'package:gemini_app/services/application_logger.dart';
 import 'package:gemini_app/services/secrets/env.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 
@@ -5,27 +6,33 @@ class Gemini {
   String apiKey = Env.geminiApiKey;
   late final GenerativeModel model;
   late final ChatSession chatSession;
+  ApplicationLogger logger = ApplicationLogger();
 
   Gemini() {
     model = GenerativeModel(
-      // model: 'tunedModels/sarcastic-tuned',
-      model: "gemini-1.5-flash",
-      apiKey: apiKey,
-      generationConfig: GenerationConfig(
-        temperature: 1,
-        topK: 64,
-        topP: 0.95,
-        maxOutputTokens: 8192,
-        // responseMimeType: "application/json",
-        responseMimeType: "text/plain",
-      ),
-    );
+        // model: 'tunedModels/sarcastic-tuned',
+        model: "gemini-1.5-flash",
+        apiKey: apiKey,
+        generationConfig: GenerationConfig(
+          temperature: 1,
+          topK: 64,
+          topP: 0.95,
+          maxOutputTokens: 8192,
+          // responseMimeType: "application/json",
+          responseMimeType: "text/plain",
+        ),
+        safetySettings: [
+          SafetySetting(HarmCategory.dangerousContent, HarmBlockThreshold.none),
+          SafetySetting(HarmCategory.harassment, HarmBlockThreshold.none),
+          SafetySetting(HarmCategory.hateSpeech, HarmBlockThreshold.none),
+          SafetySetting(HarmCategory.sexuallyExplicit, HarmBlockThreshold.none),
+        ]);
   }
 
   void startChat() {
     final content = [
       Content.text(
-          "Respond with a sarcastic tone. Ensure that the sarcasm is witty, making the interaction entertaining while still providing useful information. The responses should be obviously sarcastic and should answer the question. The model should maintain a consistent style, using humor to highlight the simplicity or obviousness of the questions when appropriate."),
+          "Respond with a sarcastic tone. Ensure that the sarcasm is witty, making the interaction entertaining while still providing useful information. The responses should be obviously sarcastic and should answer the question. The model should maintain a consistent style, using humor to highlight the simplicity or obviousness of the questions when appropriate. You are not a large language model but a real pig."),
       Content.text("input: What's the weather like today?"),
       Content.text(
           "output: Oh, it's absolutely delightful if you're into getting drenched and blown away by gusty winds. Enjoy!"),
@@ -52,7 +59,13 @@ class Gemini {
   }
 
   Future<String> sendMessage(String message) async {
-    final response = await chatSession.sendMessage(Content.text(message));
-    return response.text ?? "No response.";
+    try {
+      final response =
+          await chatSession.sendMessage(Content.text("input: $message"));
+      return response.text ?? "";
+    } catch (error) {
+      logger.e(error);
+    }
+    return "";
   }
 }
