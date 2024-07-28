@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/services/firebase/firebase.dart';
 
 import 'package:gemini_app/views/chatView/chat_view.dart';
 import 'package:gemini_app/bottomNavigationView/bottom_navigation_view.dart';
@@ -17,6 +18,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseWrapper.initialize();
+  }
 
   void updateView(int newIndex) {
     setState(() {
@@ -43,7 +50,11 @@ class _MyAppState extends State<MyApp> {
         ),
         body: IndexedStack(
           index: currentIndex,
-          children: const [ChatView(), Text("Social View"), ProfileView()],
+          children: const [
+            ChatView(),
+            Text("Social View"),
+            ProfileView(),
+          ],
         ),
         bottomNavigationBar: BottomNavigationView(
           currentIndex: currentIndex,
