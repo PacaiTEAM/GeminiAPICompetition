@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/views/profileView/text_box.dart';
 
@@ -10,8 +11,34 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   //final currentUser = FirebaseAuth.instance.currentUser;
-  String userName = "Lemeng";
-  String avatarName = "ZJ";
+  String userName = "Xixi";
+  String avatarName = "Fifi";
+  String userEmail = "abcdefg@gmail.com";
+
+  // DatabaseReference ref = FirebaseDatabase.instance.ref();
+  // await ref.set({
+  //   "name": "Xixi",
+  //   "avatar": "Fifi",
+  //   "email": "abcdefg@gmail.com",
+  // });
+  // final newPostKey = FirebaseDatabase.instance.ref().child('posts').push().key;
+
+  writeToFirebase() async {
+    // DatabaseReference ref = FirebaseDatabase.instance.ref();
+    // await ref.set({
+    //   "name": userName,
+    //   "avatar": avatarName,
+    //   "email": userEmail,
+    // });
+    DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
+    await ref.set({
+      "name": "John",
+      "age": 18,
+      "address": {"line1": "100 Mountain View"}
+    }).catchError((err) {
+      print('Error: $err');
+    });
+  }
 
   //Edit Field
   Future<void> editField(String field) async {
@@ -75,10 +102,10 @@ class _ProfileViewState extends State<ProfileView> {
           // Profile Pic
           const Icon(Icons.person, size: 72),
           // User Email
-          const Text(
-            "wang.15543@osu.edu",
-            style:
-                TextStyle(fontSize: 16, color: Color.fromARGB(255, 62, 62, 62)),
+          Text(
+            userEmail,
+            style: const TextStyle(
+                fontSize: 16, color: Color.fromARGB(255, 62, 62, 62)),
             textAlign: TextAlign.center,
           ),
 
@@ -104,6 +131,11 @@ class _ProfileViewState extends State<ProfileView> {
             text: avatarName,
             sectionName: "Avatar Name",
             onPressed: () => editField("Avatar Name"),
+          ),
+
+          IconButton(
+            onPressed: writeToFirebase,
+            icon: const Icon(Icons.piano, size: 72, color: Colors.blue),
           )
         ],
       ),
