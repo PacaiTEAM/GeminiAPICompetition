@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/views/chatView/chat_view.dart';
 import 'package:gemini_app/views/greetingView/getInformation/get_information.dart';
 import 'package:gemini_app/views/greetingView/greetingMessage/greeting_message.dart';
 import 'package:gemini_app/views/greetingView/namingPig/naming_pig.dart';
 
 class GreetingView extends StatefulWidget {
+  static const String id = "/greetingView";
+
   const GreetingView({super.key});
 
   @override
@@ -13,10 +16,14 @@ class GreetingView extends StatefulWidget {
 class _GreetingViewState extends State<GreetingView> {
   int _currentIndex = 0;
 
-  void navigateToNextView() {
-    setState(() {
-      _currentIndex++;
-    });
+  Future<void> navigateToNextView() async {
+    if (_currentIndex < 2) {
+      setState(() {
+        _currentIndex++;
+      });
+    } else {
+      Navigator.pushNamed(context, ChatView.id);
+    }
   }
 
   @override

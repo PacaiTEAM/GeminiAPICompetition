@@ -6,6 +6,8 @@ import 'package:gemini_app/services/permissions/microphone.dart';
 import 'package:provider/provider.dart';
 
 class ChatView extends StatefulWidget {
+  static const id = "/chatView";
+
   const ChatView({super.key});
 
   @override

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:gemini_app/utils/screen_dimensions.dart';
 import 'package:gemini_app/services/firebase/firebase.dart';
 
 import 'package:gemini_app/views/chatView/chat_view.dart';
-import 'package:gemini_app/bottomNavigationView/bottom_navigation_view.dart';
 import 'package:gemini_app/views/profileView/profile_view.dart';
 import 'package:gemini_app/views/greetingView/greeting_view.dart';
+import 'package:gemini_app/views/start_view.dart';
+import 'package:gemini_app/widgets/main_scaffold.dart';
 
 void main() {
   runApp(const MyApp());
@@ -44,20 +44,21 @@ class _MyAppState extends State<MyApp> {
         fontFamily: "Montserrat",
         useMaterial3: true,
       ),
-      home: Scaffold(
-        appBar: AppBar(
-          // Note: Application state is not lost during reload. To reset the state, use hot
-          // restart instead.
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: const Text("Sarcastic Pig"),
-        ),
-        body: IndexedStack(
-          index: currentIndex,
-          children: const [ChatView(), Text("Social View"), ProfileView()],
-        ),
-        bottomNavigationBar: BottomNavigationView(
-            currentIndex: currentIndex, updateView: updateView),
-      ),
+      initialRoute: StartView.id,
+      routes: {
+        StartView.id: (context) => const Scaffold(
+              body: GreetingView(),
+            ),
+        GreetingView.id: (context) => const Scaffold(
+              body: GreetingView(),
+            ),
+        ChatView.id: (context) => const MainScaffold(
+              body: ChatView(),
+            ),
+        ProfileView.id: (context) => const MainScaffold(
+              body: ProfileView(),
+            ),
+      },
     );
   }
 }

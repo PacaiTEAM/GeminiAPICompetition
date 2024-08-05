@@ -4,6 +4,8 @@ import 'package:gemini_app/services/application_logger.dart';
 import 'package:gemini_app/views/profileView/text_box.dart';
 
 class ProfileView extends StatefulWidget {
+  static const String id = "/profileView";
+
   const ProfileView({super.key});
 
   @override
