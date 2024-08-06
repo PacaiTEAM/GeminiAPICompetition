@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "30777494242",
+    "project_id": "geminiapicompetition-9effd",
+    "storage_bucket": "geminiapicompetition-9effd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:30777494242:android:7c37d84e50baad31b5acbb",
+        "android_client_info": {
+          "package_name": "com.sarcasticpig.gemini_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgGRT0hE2ORrR62qKkatt0w4E0oWTp8GI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

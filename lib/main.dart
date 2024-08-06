@@ -21,11 +21,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int currentIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    FirebaseWrapper.initialize();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   FirebaseWrapper.initialize();
+  // }
 
   void updateView(int newIndex) {
     setState(() {

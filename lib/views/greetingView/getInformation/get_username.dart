@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:gemini_app/utils/screen_dimensions.dart';
 import 'package:typewritertext/typewritertext.dart';
 
-class NamingPig extends StatefulWidget {
+class GetUsername extends StatefulWidget {
   final void Function() updateView;
 
-  const NamingPig({super.key, required this.updateView});
+  const GetUsername({super.key, required this.updateView});
 
   @override
-  State<NamingPig> createState() => _NamingPigState();
+  State<GetUsername> createState() => _GetUsernameState();
 }
 
-class _NamingPigState extends State<NamingPig> {
+class _GetUsernameState extends State<GetUsername> {
   final _controller = TextEditingController();
 
   String? get _errorText {
@@ -32,6 +32,7 @@ class _NamingPigState extends State<NamingPig> {
   }
 
   final _text = '';
+
   @override
   Widget build(BuildContext context) {
     final (width, _) = getScreenDimensionsForSafeArea(context, false);
@@ -47,7 +48,7 @@ class _NamingPigState extends State<NamingPig> {
           child: SizedBox(
             height: 100,
             child: TypeWriter.text(
-              "Please give me a name:",
+              "What is your name?",
               // enabled: widget.enabled,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -65,7 +66,7 @@ class _NamingPigState extends State<NamingPig> {
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               border: const OutlineInputBorder(),
-              hintText: 'Enter the name',
+              hintText: 'Enter your name',
               hintStyle: const TextStyle(color: Colors.white),
               errorText: _errorText,
               suffixIcon: IconButton(

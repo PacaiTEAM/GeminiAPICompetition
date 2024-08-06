@@ -1,0 +1,21 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "geminiapicompetition-9effd",
+          "appId": "1:30777494242:android:7c37d84e50baad31b5acbb",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "geminiapicompetition-9effd",
+          "configurations": {
+            "web": "1:30777494242:web:5cc2b91eb03c23e5b5acbb"
+          }
+        }
+      }
+    }
+  }
+}
