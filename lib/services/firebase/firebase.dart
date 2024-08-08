@@ -9,12 +9,12 @@ class FirebaseWrapper {
     );
   }
 
-  Future<void> set(data, String path) async {
+  static Future<void> set(data, String path) async {
     final DatabaseReference ref = FirebaseDatabase.instance.ref(path);
-    await ref.set({data});
+    await ref.set(data);
   }
 
-  Future<void> update(data, String path) async {
+  static Future<void> update(data, String path) async {
     final DatabaseReference ref = FirebaseDatabase.instance.ref(path);
     // get a key for a new post
     final key = ref.push().key;
@@ -23,7 +23,7 @@ class FirebaseWrapper {
     ref.update(updates);
   }
 
-  Future<Object?> get(String path) async {
+  static Future<Object?> get(String path) async {
     final DatabaseReference ref = FirebaseDatabase.instance.ref(path);
     final snapshot = await ref.get();
     return snapshot.value;

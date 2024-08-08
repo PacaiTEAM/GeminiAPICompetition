@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/services/shared_preferences_service.dart';
 import 'package:gemini_app/utils/screen_dimensions.dart';
 import 'package:typewritertext/typewritertext.dart';
 
@@ -22,11 +23,14 @@ class _NamingPigState extends State<NamingPig> {
     return null;
   }
 
-  void _submit() {
+  Future<void> _submit() async {
     // print("lemeng is the best");
     // if there is no error text
     if (_errorText == null) {
       // notify the parent widget via the onSubmit callback
+      String pigName = _controller.value.text;
+      SharedPreferencesService.write("AvatarName", pigName);
+
       widget.updateView();
     }
   }

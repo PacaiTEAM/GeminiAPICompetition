@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_app/utils/screen_dimensions.dart';
+import 'package:gemini_app/services/shared_preferences_service.dart';
 import 'package:typewritertext/typewritertext.dart';
 
 class GetUsername extends StatefulWidget {
@@ -26,6 +27,8 @@ class _GetUsernameState extends State<GetUsername> {
     // print("lemeng is the best");
     // if there is no error text
     if (_errorText == null) {
+      String userName = _controller.value.text;
+      SharedPreferencesService.write("UserName", userName);
       // notify the parent widget via the onSubmit callback
       widget.updateView();
     }

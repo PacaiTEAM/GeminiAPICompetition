@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:gemini_app/services/application_logger.dart';
+import 'package:gemini_app/services/shared_preferences_service.dart';
 import 'package:gemini_app/views/profileView/text_box.dart';
 
 class ProfileView extends StatefulWidget {
@@ -16,9 +17,9 @@ class _ProfileViewState extends State<ProfileView> {
   ApplicationLogger logger = ApplicationLogger();
 
   //final currentUser = FirebaseAuth.instance.currentUser;
-  String userName = "Xixi";
-  String avatarName = "Fifi";
-  String userEmail = "abcdefg@gmail.com";
+  String userName = "";
+  String avatarName = "";
+  String? error = null;
 
   // DatabaseReference ref = FirebaseDatabase.instance.ref();
   // await ref.set({
@@ -28,25 +29,55 @@ class _ProfileViewState extends State<ProfileView> {
   // });
   // final newPostKey = FirebaseDatabase.instance.ref().child('posts').push().key;
 
-  writeToFirebase() async {
-    // DatabaseReference ref = FirebaseDatabase.instance.ref();
-    // await ref.set({
-    //   "name": userName,
-    //   "avatar": avatarName,
-    //   "email": userEmail,
-    // });
-    DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
-    await ref.set({
-      "name": "John",
-      "age": 18,
-      "address": {"line1": "100 Mountain View"}
-    }).catchError((err) {
-      logger.e('Error: $err');
-    });
+  // writeToFirebase() async {
+  //   // DatabaseReference ref = FirebaseDatabase.instance.ref();
+  //   // await ref.set({
+  //   //   "name": userName,
+  //   //   "avatar": avatarName,
+  //   //   "email": userEmail,
+  //   // });
+  //   DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
+  //   await ref.set({
+  //     "name": "John",
+  //     "age": 18,
+  //     "address": {"line1": "100 Mountain View"}
+  //   }).catchError((err) {
+  //     logger.e('Error: $err');
+  //   });
+  // }
+
+  final _controller = TextEditingController();
+  String? getErrorText(String text) {
+    print("zj");
+    if (text.isEmpty) return 'Please enter a name';
+    if (text.length < 3) return 'Name must be at least 3 characters long';
+    if (text.length > 15) return 'Name must be at most 15 characters long';
+    return null;
+  }
+
+  void varDeclare() {
+    SharedPreferencesService.read("UserName").then((value) => {
+          setState(() {
+            userName = value;
+          })
+        });
+    SharedPreferencesService.read("AvatarName").then((value) => {
+          setState(() {
+            avatarName = value;
+          })
+        });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    varDeclare();
   }
 
   //Edit Field
   Future<void> editField(String field) async {
+    String text = _controller.value.text;
+    error = getErrorText(text);
     String newValue = "";
     await showDialog(
       context: context,
@@ -62,9 +93,12 @@ class _ProfileViewState extends State<ProfileView> {
           decoration: InputDecoration(
             hintText: "Enter new $field",
             hintStyle: const TextStyle(color: Colors.grey),
+            errorText: error,
           ),
           onChanged: (value) {
             newValue = value;
+
+            setState(() => error = getErrorText(value));
           },
         ),
         actions: [
@@ -86,8 +120,10 @@ class _ProfileViewState extends State<ProfileView> {
               setState(() {
                 if (field == "Username") {
                   userName = newValue;
+                  SharedPreferencesService.write("UserName", userName);
                 } else {
                   avatarName = newValue;
+                  SharedPreferencesService.write("AvatarName", avatarName);
                 }
               });
               Navigator.of(context).pop(newValue);
@@ -106,13 +142,6 @@ class _ProfileViewState extends State<ProfileView> {
           const SizedBox(height: 25),
           // Profile Pic
           const Icon(Icons.person, size: 72),
-          // User Email
-          Text(
-            userEmail,
-            style: const TextStyle(
-                fontSize: 16, color: Color.fromARGB(255, 62, 62, 62)),
-            textAlign: TextAlign.center,
-          ),
 
           const SizedBox(height: 25),
 
@@ -138,10 +167,10 @@ class _ProfileViewState extends State<ProfileView> {
             onPressed: () => editField("Avatar Name"),
           ),
 
-          IconButton(
-            onPressed: writeToFirebase,
-            icon: const Icon(Icons.piano, size: 72, color: Colors.blue),
-          )
+          // IconButton(
+          //   onPressed: writeToFirebase,
+          //   icon: const Icon(Icons.piano, size: 72, color: Colors.blue),
+          // )
         ],
       ),
     );
