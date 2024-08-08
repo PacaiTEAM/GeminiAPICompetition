@@ -72,8 +72,13 @@ class _ProfileViewState extends State<ProfileView> {
                 errorText: error,
               ),
               onChanged: (value) {
-                newValue = value;
-                setState(() => error = getErrorText(value));
+                // setState(() => error = getErrorText(value));
+                setState(
+                  () {
+                    newValue = value;
+                    error = getErrorText(value);
+                  },
+                );
               },
             ),
             actions: [

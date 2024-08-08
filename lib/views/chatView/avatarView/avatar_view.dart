@@ -68,7 +68,7 @@ class _AvatarViewState extends State<AvatarView> {
               color: Colors.blue,
             ),
             child: Image.asset(
-              "lib/assets/images/dancing-pig.gif",
+              "lib/assets/images/naughty-pig.gif",
             ),
           ),
         ),
