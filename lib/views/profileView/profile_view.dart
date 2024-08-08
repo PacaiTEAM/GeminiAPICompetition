@@ -19,40 +19,13 @@ class _ProfileViewState extends State<ProfileView> {
   //final currentUser = FirebaseAuth.instance.currentUser;
   String userName = "";
   String avatarName = "";
-  String? error = null;
-
-  // DatabaseReference ref = FirebaseDatabase.instance.ref();
-  // await ref.set({
-  //   "name": "Xixi",
-  //   "avatar": "Fifi",
-  //   "email": "abcdefg@gmail.com",
-  // });
-  // final newPostKey = FirebaseDatabase.instance.ref().child('posts').push().key;
-
-  // writeToFirebase() async {
-  //   // DatabaseReference ref = FirebaseDatabase.instance.ref();
-  //   // await ref.set({
-  //   //   "name": userName,
-  //   //   "avatar": avatarName,
-  //   //   "email": userEmail,
-  //   // });
-  //   DatabaseReference ref = FirebaseDatabase.instance.ref("users/123");
-  //   await ref.set({
-  //     "name": "John",
-  //     "age": 18,
-  //     "address": {"line1": "100 Mountain View"}
-  //   }).catchError((err) {
-  //     logger.e('Error: $err');
-  //   });
-  // }
-
   final _controller = TextEditingController();
-  String? getErrorText(String text) {
-    print("zj");
+
+  String getErrorText(String text) {
     if (text.isEmpty) return 'Please enter a name';
     if (text.length < 3) return 'Name must be at least 3 characters long';
     if (text.length > 15) return 'Name must be at most 15 characters long';
-    return null;
+    return "";
   }
 
   void varDeclare() {
@@ -77,60 +50,64 @@ class _ProfileViewState extends State<ProfileView> {
   //Edit Field
   Future<void> editField(String field) async {
     String text = _controller.value.text;
-    error = getErrorText(text);
+
     String newValue = "";
     await showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[700],
-        title: Text(
-          "Edit $field",
-          style: const TextStyle(color: Colors.white),
-        ),
-        content: TextField(
-          autofocus: true,
-          style: const TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            hintText: "Enter new $field",
-            hintStyle: const TextStyle(color: Colors.grey),
-            errorText: error,
-          ),
-          onChanged: (value) {
-            newValue = value;
-
-            setState(() => error = getErrorText(value));
-          },
-        ),
-        actions: [
-          // cancel button
-          TextButton(
-            child: const Text(
-              "Cancel",
-              style: TextStyle(color: Colors.white),
+      builder: (context) {
+        String error = getErrorText(text);
+        return StatefulBuilder(builder: (context, setState) {
+          return AlertDialog(
+            backgroundColor: Colors.grey[700],
+            title: Text(
+              "Edit $field",
+              style: const TextStyle(color: Colors.white),
             ),
-            onPressed: () => Navigator.pop(context),
-          ),
-          // save button
-          TextButton(
-            child: const Text(
-              "Save",
-              style: TextStyle(color: Colors.white),
+            content: TextField(
+              autofocus: true,
+              style: const TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                hintText: "Enter new $field",
+                hintStyle: const TextStyle(color: Colors.grey),
+                errorText: error,
+              ),
+              onChanged: (value) {
+                newValue = value;
+                setState(() => error = getErrorText(value));
+              },
             ),
-            onPressed: () {
-              setState(() {
-                if (field == "Username") {
-                  userName = newValue;
-                  SharedPreferencesService.write("UserName", userName);
-                } else {
-                  avatarName = newValue;
-                  SharedPreferencesService.write("AvatarName", avatarName);
-                }
-              });
-              Navigator.of(context).pop(newValue);
-            },
-          ),
-        ],
-      ),
+            actions: [
+              // cancel button
+              TextButton(
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () => Navigator.pop(context),
+              ),
+              // save button
+              TextButton(
+                child: const Text(
+                  "Save",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {
+                  setState(() {
+                    if (field == "Username") {
+                      userName = newValue;
+                      SharedPreferencesService.write("UserName", userName);
+                    } else {
+                      avatarName = newValue;
+                      SharedPreferencesService.write("AvatarName", avatarName);
+                    }
+                  });
+                  Navigator.of(context).pop(newValue);
+                },
+              ),
+            ],
+          );
+        });
+      },
     );
   }
 

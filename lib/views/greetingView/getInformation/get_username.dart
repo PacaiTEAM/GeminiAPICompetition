@@ -38,13 +38,16 @@ class _GetUsernameState extends State<GetUsername> {
 
   @override
   Widget build(BuildContext context) {
-    final (width, _) = getScreenDimensionsForSafeArea(context, false);
+    final (width, height) = getScreenDimensionsForSafeArea(context, false);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Image.asset(
-          "lib/assets/images/listening-pig.gif",
+        SizedBox(
+          height: height * 0.5,
+          child: Image.asset(
+            "lib/assets/images/listening-pig.gif",
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 12.0),
