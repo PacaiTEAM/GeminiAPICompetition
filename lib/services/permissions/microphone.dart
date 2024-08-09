@@ -65,7 +65,8 @@ class Microphone {
   }
 
   /// Starts listening to the microphone input.
-  Future<void> startListening(bool permissionGiven) async {
+  Future<void> startListening(
+      bool permissionGiven, Function updateMessage) async {
     try {
       if (permissionGiven && speech.isAvailable) {
         // TODO: need to set the locale to detect the language being spoken
@@ -74,6 +75,7 @@ class Microphone {
           onResult: (result) {
             logger.d(
                 "${result.recognizedWords} ${result.confidence} ${result.alternates}");
+            updateMessage(result.recognizedWords);
           },
           listenOptions: SpeechListenOptions(
             cancelOnError: true,

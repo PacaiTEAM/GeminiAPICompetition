@@ -78,7 +78,11 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               // save button
               TextButton(
-                onPressed: handleSave,
+                onPressed: () {
+                  if (error == "") {
+                    handleSave();
+                  }
+                },
                 child: const Text(
                   "Save",
                   style: TextStyle(color: Colors.white),

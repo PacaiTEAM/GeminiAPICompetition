@@ -18,6 +18,7 @@ class AvatarView extends StatefulWidget {
 class _AvatarViewState extends State<AvatarView> {
   late final Microphone microphone;
   late ApplicationLogger logger;
+  late String Message = "";
 
   @override
   void initState() {
@@ -41,8 +42,14 @@ class _AvatarViewState extends State<AvatarView> {
     bool hasPermission = await microphone.hasPermission();
     if (hasPermission && await microphone.initialize()) {
       logger.i("Speech recognition has been successfully initialized.");
-      await microphone.startListening(hasPermission);
+      await microphone.startListening(hasPermission, updateMessage);
     }
+  }
+
+  void updateMessage(message) {
+    setState(() {
+      Message = message;
+    });
   }
 
   @override
@@ -50,12 +57,12 @@ class _AvatarViewState extends State<AvatarView> {
     final (_, height) = getScreenDimensionsForSafeArea(context, false);
     GeminiChatSessionState geminiChatSessionState =
         context.watch<GeminiChatSessionState>();
-
     void stopListening(LongPressEndDetails details) async {
       String message = microphone.getInput();
       geminiChatSessionState.addToChatHistory(message, UserRole.user);
       await geminiChatSessionState.sendMessageToGemini(message);
       await microphone.stopListening();
+      // updateMessage(message);
     }
 
     return Column(
@@ -67,19 +74,29 @@ class _AvatarViewState extends State<AvatarView> {
           child: Container(
             decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.blue,
+              color: Color.fromARGB(255, 198, 222, 242),
             ),
             child: SizedBox(
               height: height * 0.5,
-              child: Image.asset(
-                "lib/assets/images/naughty-pig.gif",
+              child: Padding(
+                padding: const EdgeInsets.only(left: 50.0),
+                child: Image.asset(
+                  "lib/assets/images/naughty-pig.gif",
+                ),
               ),
             ),
           ),
         ),
-        Text(geminiChatSessionState.chatHistory.isEmpty
-            ? "Long Press on the Avatar to speak."
-            : geminiChatSessionState.chatHistory.last.$1),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(Message),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(geminiChatSessionState.chatHistory.isEmpty
+              ? "Long Press on the Avatar to speak."
+              : geminiChatSessionState.chatHistory.last.$1),
+        ),
       ],
     );
   }
