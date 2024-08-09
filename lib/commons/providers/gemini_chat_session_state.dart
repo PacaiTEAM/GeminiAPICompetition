@@ -4,9 +4,7 @@ import 'package:gemini_app/services/geminiApi/gemini.dart';
 
 class GeminiChatSessionState extends ChangeNotifier {
   Gemini gemini = Gemini();
-  List<(String, UserRole)> chatHistory = [
-    ("Hey! We should have some greeting message here!", UserRole.gemini)
-  ];
+  List<(String, UserRole)> chatHistory = [];
 
   GeminiChatSessionState() {
     gemini.startChat();

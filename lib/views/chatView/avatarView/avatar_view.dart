@@ -77,7 +77,9 @@ class _AvatarViewState extends State<AvatarView> {
             ),
           ),
         ),
-        Text(geminiChatSessionState.chatHistory.last.$1),
+        Text(geminiChatSessionState.chatHistory.isEmpty
+            ? "Long Press on the Avatar to speak."
+            : geminiChatSessionState.chatHistory.last.$1),
       ],
     );
   }
