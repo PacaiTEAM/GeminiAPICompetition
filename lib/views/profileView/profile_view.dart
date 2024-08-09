@@ -1,8 +1,8 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:gemini_app/commons/providers/profile_data_state.dart';
 import 'package:gemini_app/services/application_logger.dart';
-import 'package:gemini_app/services/shared_preferences_service.dart';
 import 'package:gemini_app/views/profileView/text_box.dart';
+import 'package:provider/provider.dart';
 
 class ProfileView extends StatefulWidget {
   static const String id = "/profileView";
@@ -15,10 +15,6 @@ class ProfileView extends StatefulWidget {
 
 class _ProfileViewState extends State<ProfileView> {
   ApplicationLogger logger = ApplicationLogger();
-
-  //final currentUser = FirebaseAuth.instance.currentUser;
-  String userName = "";
-  String avatarName = "";
   final _controller = TextEditingController();
 
   String getErrorText(String text) {
@@ -28,30 +24,21 @@ class _ProfileViewState extends State<ProfileView> {
     return "";
   }
 
-  void varDeclare() {
-    SharedPreferencesService.read("UserName").then((value) => {
-          setState(() {
-            userName = value;
-          })
-        });
-    SharedPreferencesService.read("AvatarName").then((value) => {
-          setState(() {
-            avatarName = value;
-          })
-        });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    varDeclare();
-  }
-
   //Edit Field
-  Future<void> editField(String field) async {
+  Future<void> editField(String field, BuildContext context) async {
     String text = _controller.value.text;
-
+    ProfileDataState profileDataState = context.read<ProfileDataState>();
     String newValue = "";
+
+    void handleSave() async {
+      if (field == "Username") {
+        profileDataState.setUsername(newValue);
+      } else {
+        profileDataState.setAvatarName(newValue);
+      }
+      Navigator.of(context).pop(newValue);
+    }
+
     await showDialog(
       context: context,
       builder: (context) {
@@ -72,7 +59,6 @@ class _ProfileViewState extends State<ProfileView> {
                 errorText: error,
               ),
               onChanged: (value) {
-                // setState(() => error = getErrorText(value));
                 setState(
                   () {
                     newValue = value;
@@ -92,22 +78,11 @@ class _ProfileViewState extends State<ProfileView> {
               ),
               // save button
               TextButton(
+                onPressed: handleSave,
                 child: const Text(
                   "Save",
                   style: TextStyle(color: Colors.white),
                 ),
-                onPressed: () {
-                  setState(() {
-                    if (field == "Username") {
-                      userName = newValue;
-                      SharedPreferencesService.write("UserName", userName);
-                    } else {
-                      avatarName = newValue;
-                      SharedPreferencesService.write("AvatarName", avatarName);
-                    }
-                  });
-                  Navigator.of(context).pop(newValue);
-                },
               ),
             ],
           );
@@ -118,41 +93,38 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    ProfileDataState profileDataState = context.watch<ProfileDataState>();
+
     return Scaffold(
       body: ListView(
         children: [
           const SizedBox(height: 25),
           // Profile Pic
           const Icon(Icons.person, size: 72),
-
           const SizedBox(height: 25),
-
           // User Details
           const Padding(
             padding: EdgeInsets.only(left: 25.0),
             child: Text(
               "My Details",
               style: TextStyle(
-                  fontSize: 16, color: Color.fromARGB(255, 70, 69, 69)),
+                fontSize: 16,
+                color: Color.fromARGB(255, 70, 69, 69),
+              ),
             ),
           ),
           // User Name
           TextBox(
-            text: userName,
+            text: profileDataState.userName,
             sectionName: "Username",
-            onPressed: () => editField("Username"),
+            onPressed: () => editField("Username", context),
           ),
           // Avatar Name
           TextBox(
-            text: avatarName,
+            text: profileDataState.avatarName,
             sectionName: "Avatar Name",
-            onPressed: () => editField("Avatar Name"),
+            onPressed: () => editField("Avatar Name", context),
           ),
-
-          // IconButton(
-          //   onPressed: writeToFirebase,
-          //   icon: const Icon(Icons.piano, size: 72, color: Colors.blue),
-          // )
         ],
       ),
     );

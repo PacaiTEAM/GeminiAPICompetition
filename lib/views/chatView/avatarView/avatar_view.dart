@@ -3,6 +3,7 @@ import 'package:gemini_app/commons/constants.dart';
 import 'package:gemini_app/commons/providers/gemini_chat_session_state.dart';
 import 'package:gemini_app/services/application_logger.dart';
 import 'package:gemini_app/services/permissions/microphone.dart';
+import 'package:gemini_app/utils/screen_dimensions.dart';
 import 'package:provider/provider.dart';
 
 class AvatarView extends StatefulWidget {
@@ -46,6 +47,7 @@ class _AvatarViewState extends State<AvatarView> {
 
   @override
   Widget build(BuildContext context) {
+    final (_, height) = getScreenDimensionsForSafeArea(context, false);
     GeminiChatSessionState geminiChatSessionState =
         context.watch<GeminiChatSessionState>();
 
@@ -67,8 +69,11 @@ class _AvatarViewState extends State<AvatarView> {
               shape: BoxShape.circle,
               color: Colors.blue,
             ),
-            child: Image.asset(
-              "lib/assets/images/naughty-pig.gif",
+            child: SizedBox(
+              height: height * 0.5,
+              child: Image.asset(
+                "lib/assets/images/naughty-pig.gif",
+              ),
             ),
           ),
         ),

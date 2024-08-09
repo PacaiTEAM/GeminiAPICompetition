@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/commons/providers/profile_data_state.dart';
 import 'package:gemini_app/services/firebase/firebase.dart';
 
 import 'package:gemini_app/views/chatView/chat_view.dart';
@@ -6,6 +7,7 @@ import 'package:gemini_app/views/profileView/profile_view.dart';
 import 'package:gemini_app/views/greetingView/greeting_view.dart';
 import 'package:gemini_app/views/start_view.dart';
 import 'package:gemini_app/widgets/main_scaffold.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,8 +57,11 @@ class _MyAppState extends State<MyApp> {
         ChatView.id: (context) => const MainScaffold(
               body: ChatView(),
             ),
-        ProfileView.id: (context) => const MainScaffold(
-              body: ProfileView(),
+        ProfileView.id: (context) => MainScaffold(
+              body: ChangeNotifierProvider(
+                create: (context) => ProfileDataState(),
+                child: const ProfileView(),
+              ),
             ),
       },
     );
