@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_app/commons/providers/gemini_chat_session_state.dart';
 import 'package:gemini_app/commons/providers/profile_data_state.dart';
 // import 'package:gemini_app/services/firebase/firebase.dart';
 
@@ -38,32 +39,35 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sarcastic Pig',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 190, 240, 192)),
-        fontFamily: "Montserrat",
-        useMaterial3: true,
-      ),
-      initialRoute: StartView.id,
-      routes: {
-        StartView.id: (context) => const Scaffold(
-              body: GreetingView(),
-            ),
-        GreetingView.id: (context) => const Scaffold(
-              body: GreetingView(),
-            ),
-        ChatView.id: (context) => const MainScaffold(
-              body: ChatView(),
-            ),
-        ProfileView.id: (context) => MainScaffold(
-              body: ChangeNotifierProvider(
-                create: (context) => ProfileDataState(),
-                child: const ProfileView(),
+    return ChangeNotifierProvider(
+      create: (context) => GeminiChatSessionState(),
+      child: MaterialApp(
+        title: 'Sarcastic Pig',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: const Color.fromARGB(255, 190, 240, 192)),
+          fontFamily: "Montserrat",
+          useMaterial3: true,
+        ),
+        initialRoute: StartView.id,
+        routes: {
+          StartView.id: (context) => const Scaffold(
+                body: GreetingView(),
               ),
-            ),
-      },
+          GreetingView.id: (context) => const Scaffold(
+                body: GreetingView(),
+              ),
+          ChatView.id: (context) => const MainScaffold(
+                body: ChatView(),
+              ),
+          ProfileView.id: (context) => MainScaffold(
+                body: ChangeNotifierProvider(
+                  create: (context) => ProfileDataState(),
+                  child: const ProfileView(),
+                ),
+              ),
+        },
+      ),
     );
   }
 }
