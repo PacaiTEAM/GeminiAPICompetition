@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:gemini_app/commons/constants.dart';
 import 'package:gemini_app/commons/providers/gemini_chat_session_state.dart';
@@ -19,6 +21,7 @@ class _AvatarViewState extends State<AvatarView> {
   late final Microphone microphone;
   late ApplicationLogger logger;
   late String _message = "";
+  bool isListening = false;
 
   @override
   void initState() {
@@ -43,6 +46,9 @@ class _AvatarViewState extends State<AvatarView> {
     if (hasPermission && await microphone.initialize()) {
       logger.i("Speech recognition has been successfully initialized.");
       await microphone.startListening(hasPermission, updateMessage);
+      setState(() {
+        isListening = true;
+      });
     }
   }
 
@@ -65,6 +71,9 @@ class _AvatarViewState extends State<AvatarView> {
 
     void stopListening(LongPressEndDetails details) async {
       await microphone.stopListening();
+      setState(() {
+        isListening = false;
+      });
       microphone.getInput(sendMessage);
     }
 
@@ -72,7 +81,6 @@ class _AvatarViewState extends State<AvatarView> {
       child: Column(
         children: [
           GestureDetector(
-            // onTap: getVoiceInput,
             onLongPress: getVoiceInput,
             onLongPressEnd: stopListening,
             child: Container(
@@ -83,9 +91,11 @@ class _AvatarViewState extends State<AvatarView> {
               child: SizedBox(
                 height: height * 0.5,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 50.0),
+                  padding: EdgeInsets.only(left: isListening ? 25.0 : 50.0),
                   child: Image.asset(
-                    "lib/assets/images/naughty-pig.gif",
+                    isListening
+                        ? "lib/assets/images/listening-pig.gif"
+                        : "lib/assets/images/naughty-pig.gif",
                   ),
                 ),
               ),
