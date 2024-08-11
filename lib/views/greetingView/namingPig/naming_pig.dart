@@ -40,19 +40,19 @@ class _NamingPigState extends State<NamingPig> {
   Widget build(BuildContext context) {
     final (width, height) = getScreenDimensionsForSafeArea(context, false);
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: height * 0.5,
-          child: Image.asset(
-            "lib/assets/images/listening-pig.gif",
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: height * 0.5,
+            child: Image.asset(
+              "lib/assets/images/listening-pig.gif",
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 12.0),
-          child: SizedBox(
-            height: 100,
+          SizedBox(
+            height: height * 0.1,
             child: TypeWriter.text(
               "Please give me a name:",
               // enabled: widget.enabled,
@@ -64,10 +64,7 @@ class _NamingPigState extends State<NamingPig> {
               duration: const Duration(milliseconds: 75),
             ),
           ),
-        ),
-        SizedBox(
-          width: 500,
-          child: TextField(
+          TextField(
             controller: _controller,
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
@@ -83,8 +80,8 @@ class _NamingPigState extends State<NamingPig> {
             textInputAction: TextInputAction.done,
             onChanged: (text) => setState(() => _text),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

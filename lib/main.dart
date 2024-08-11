@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_app/commons/providers/profile_data_state.dart';
-import 'package:gemini_app/services/firebase/firebase.dart';
+// import 'package:gemini_app/services/firebase/firebase.dart';
 
 import 'package:gemini_app/views/chatView/chat_view.dart';
 import 'package:gemini_app/views/profileView/profile_view.dart';
@@ -23,11 +23,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int currentIndex = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    FirebaseWrapper.initialize();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   FirebaseWrapper.initialize();
+  // }
 
   void updateView(int newIndex) {
     setState(() {

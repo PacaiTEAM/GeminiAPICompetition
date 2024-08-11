@@ -29,18 +29,16 @@ class _GreetingViewState extends State<GreetingView> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Container(
-        color: Colors.black,
-        child: IndexedStack(
-          index: _currentIndex,
-          alignment: Alignment.center,
-          children: [
-            GreetingMessage(updateView: navigateToNextView),
-            NamingPig(updateView: navigateToNextView),
-            GetUsername(updateView: navigateToNextView),
-          ],
-        ),
+    return Container(
+      color: Colors.black,
+      child: IndexedStack(
+        index: _currentIndex,
+        alignment: Alignment.center,
+        children: [
+          GreetingMessage(updateView: navigateToNextView),
+          NamingPig(updateView: navigateToNextView),
+          GetUsername(updateView: navigateToNextView),
+        ],
       ),
     );
   }

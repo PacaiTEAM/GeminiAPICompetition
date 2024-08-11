@@ -65,39 +65,41 @@ class _AvatarViewState extends State<AvatarView> {
       // updateMessage(message);
     }
 
-    return Column(
-      children: [
-        GestureDetector(
-          // onTap: getVoiceInput,
-          onLongPress: getVoiceInput,
-          onLongPressEnd: stopListening,
-          child: Container(
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color.fromARGB(255, 198, 222, 242),
-            ),
-            child: SizedBox(
-              height: height * 0.5,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 50.0),
-                child: Image.asset(
-                  "lib/assets/images/naughty-pig.gif",
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          GestureDetector(
+            // onTap: getVoiceInput,
+            onLongPress: getVoiceInput,
+            onLongPressEnd: stopListening,
+            child: Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromARGB(255, 198, 222, 242),
+              ),
+              child: SizedBox(
+                height: height * 0.5,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 50.0),
+                  child: Image.asset(
+                    "lib/assets/images/naughty-pig.gif",
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(Message),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(geminiChatSessionState.chatHistory.isEmpty
-              ? "Long Press on the Avatar to speak."
-              : geminiChatSessionState.chatHistory.last.$1),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(Message),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(geminiChatSessionState.chatHistory.isEmpty
+                ? "Long Press on the Avatar to speak."
+                : geminiChatSessionState.chatHistory.last.$1),
+          ),
+        ],
+      ),
     );
   }
 }

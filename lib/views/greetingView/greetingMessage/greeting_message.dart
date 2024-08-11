@@ -10,22 +10,28 @@ class GreetingMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (width, _) = getScreenDimensionsForSafeArea(context, false);
+    final (width, height) = getScreenDimensionsForSafeArea(context, false);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        TypeWriter.text("HelloooOink, I'm the Sarcastic Pig...",
+        Padding(
+          padding: EdgeInsets.only(bottom: height * 0.25),
+          child: TypeWriter.text(
+            "HelloooOink, I'm the Sarcastic Pig...",
             onFinished: null,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: width * 0.1,
               color: Colors.white,
             ),
-            duration: const Duration(milliseconds: 75)),
-        const SizedBox(height: 50),
+            duration: const Duration(milliseconds: 75),
+          ),
+        ),
         ElevatedButton(
-            onPressed: updateView, child: const Icon(Icons.arrow_forward)),
+          onPressed: updateView,
+          child: const Icon(Icons.arrow_forward),
+        ),
       ],
     );
   }
