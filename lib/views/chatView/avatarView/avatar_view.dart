@@ -18,7 +18,7 @@ class AvatarView extends StatefulWidget {
 class _AvatarViewState extends State<AvatarView> {
   late final Microphone microphone;
   late ApplicationLogger logger;
-  late String Message = "";
+  late String _message = "";
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _AvatarViewState extends State<AvatarView> {
 
   void updateMessage(message) {
     setState(() {
-      Message = message;
+      _message = message;
     });
   }
 
@@ -57,12 +57,15 @@ class _AvatarViewState extends State<AvatarView> {
     final (_, height) = getScreenDimensionsForSafeArea(context, false);
     GeminiChatSessionState geminiChatSessionState =
         context.watch<GeminiChatSessionState>();
-    void stopListening(LongPressEndDetails details) async {
-      String message = microphone.getInput();
+
+    void sendMessage(String message) async {
       geminiChatSessionState.addToChatHistory(message, UserRole.user);
       await geminiChatSessionState.sendMessageToGemini(message);
+    }
+
+    void stopListening(LongPressEndDetails details) async {
       await microphone.stopListening();
-      // updateMessage(message);
+      microphone.getInput(sendMessage);
     }
 
     return SingleChildScrollView(
@@ -90,7 +93,7 @@ class _AvatarViewState extends State<AvatarView> {
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
-            child: Text(Message),
+            child: Text(_message),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
