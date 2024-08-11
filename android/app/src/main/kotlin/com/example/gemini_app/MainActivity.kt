@@ -1,4 +1,4 @@
-package com.example.gemini_app
+package com.sarcasticpig.gemini_app
 
 import io.flutter.embedding.android.FlutterActivity
 

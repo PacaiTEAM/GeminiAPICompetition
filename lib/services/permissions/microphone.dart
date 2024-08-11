@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:gemini_app/services/application_logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -104,15 +106,22 @@ class Microphone {
   }
 
   /// Get the voice input in text.
-  ///
-  /// @returns the voice input in text.
-  String getInput() {
-    if (speech.hasRecognized) {
-      logger.d("Recognized words: ${speech.lastRecognizedWords}");
-      return speech.lastRecognizedWords;
-    } else {
-      logger.e("No words are recognized.");
-    }
-    return "";
+  void getInput(void Function(String) callback) {
+    Timer.periodic(
+      const Duration(milliseconds: 500),
+      (timer) {
+        if (!speech.hasRecognized) {
+          // no voice input
+          timer.cancel();
+        }
+        if (speech.isNotListening && speech.hasRecognized) {
+          logger.d("Recognized words: ${speech.lastRecognizedWords}");
+          callback(speech.lastRecognizedWords);
+          timer.cancel();
+        } else {
+          logger.e("No words are recognized.");
+        }
+      },
+    );
   }
 }

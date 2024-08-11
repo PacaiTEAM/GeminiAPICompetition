@@ -44,13 +44,7 @@ class _ChatViewState extends State<ChatView> {
             )
           ],
         ),
-        Flexible(
-          fit: FlexFit.tight,
-          child: ChangeNotifierProvider(
-            create: (context) => GeminiChatSessionState(),
-            child: view,
-          ),
-        ),
+        Flexible(fit: FlexFit.tight, child: view),
       ],
     );
   }

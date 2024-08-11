@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:gemini_app/commons/constants.dart';
 import 'package:gemini_app/commons/providers/gemini_chat_session_state.dart';
@@ -18,7 +20,8 @@ class AvatarView extends StatefulWidget {
 class _AvatarViewState extends State<AvatarView> {
   late final Microphone microphone;
   late ApplicationLogger logger;
-  late String Message = "";
+  late String _message = "";
+  bool isListening = false;
 
   @override
   void initState() {
@@ -43,12 +46,15 @@ class _AvatarViewState extends State<AvatarView> {
     if (hasPermission && await microphone.initialize()) {
       logger.i("Speech recognition has been successfully initialized.");
       await microphone.startListening(hasPermission, updateMessage);
+      setState(() {
+        isListening = true;
+      });
     }
   }
 
   void updateMessage(message) {
     setState(() {
-      Message = message;
+      _message = message;
     });
   }
 
@@ -57,47 +63,56 @@ class _AvatarViewState extends State<AvatarView> {
     final (_, height) = getScreenDimensionsForSafeArea(context, false);
     GeminiChatSessionState geminiChatSessionState =
         context.watch<GeminiChatSessionState>();
-    void stopListening(LongPressEndDetails details) async {
-      String message = microphone.getInput();
+
+    void sendMessage(String message) async {
       geminiChatSessionState.addToChatHistory(message, UserRole.user);
       await geminiChatSessionState.sendMessageToGemini(message);
-      await microphone.stopListening();
-      // updateMessage(message);
     }
 
-    return Column(
-      children: [
-        GestureDetector(
-          // onTap: getVoiceInput,
-          onLongPress: getVoiceInput,
-          onLongPressEnd: stopListening,
-          child: Container(
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color.fromARGB(255, 198, 222, 242),
-            ),
-            child: SizedBox(
-              height: height * 0.5,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 50.0),
-                child: Image.asset(
-                  "lib/assets/images/naughty-pig.gif",
+    void stopListening(LongPressEndDetails details) async {
+      await microphone.stopListening();
+      setState(() {
+        isListening = false;
+      });
+      microphone.getInput(sendMessage);
+    }
+
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          GestureDetector(
+            onLongPress: getVoiceInput,
+            onLongPressEnd: stopListening,
+            child: Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color.fromARGB(255, 198, 222, 242),
+              ),
+              child: SizedBox(
+                height: height * 0.5,
+                child: Padding(
+                  padding: EdgeInsets.only(left: isListening ? 25.0 : 50.0),
+                  child: Image.asset(
+                    isListening
+                        ? "lib/assets/images/listening-pig.gif"
+                        : "lib/assets/images/naughty-pig.gif",
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(Message),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(geminiChatSessionState.chatHistory.isEmpty
-              ? "Long Press on the Avatar to speak."
-              : geminiChatSessionState.chatHistory.last.$1),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(_message),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(geminiChatSessionState.chatHistory.isEmpty
+                ? "Long Press on the Avatar to speak."
+                : geminiChatSessionState.chatHistory.last.$1),
+          ),
+        ],
+      ),
     );
   }
 }
